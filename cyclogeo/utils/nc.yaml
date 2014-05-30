@@ -1,0 +1,36 @@
+_import:
+  - datetime
+  - np: numpy
+
+attrdict:
+  CreatedOn: self.datetime.datetime.utcnow().strftime('%Y-%b-%d %H:%M:%S.%f').upper()
+  CreatedBy: duacs_etude@cls.fr
+  Comment: Geostrophic current corrected from cyclo-geostrophic component (L. Marie / P. Penven)
+
+vardict:
+  Grid_0001:
+    long_name: 'U, cyclo-geostrophy corrected'
+    _data: self.un
+  
+  Grid_0002:
+    long_name: 'V, cyclo-geostrophy corrected'
+    _data: self.vn
+  
+  Grid_0003:
+    long_name: 'U convergence flag'
+    units: 'flag'
+    Date_CNES_JD: fi.variables['Grid_0001'].Date_CNES_JD
+    date: fi.variables['Grid_0001'].date[:]
+    _data: self.fu
+    _dtype: u1
+    _dimensions: [NbLongitudes,NbLatitudes]
+  
+  Grid_0004:
+    long_name: 'V convergence flag'
+    units: 'flag'
+    Date_CNES_JD: fi.variables['Grid_0001'].Date_CNES_JD
+    date: fi.variables['Grid_0001'].date[:]
+    _data: self.fv
+    _dtype: u1
+    _dimensions: [NbLongitudes,NbLatitudes]
+  
