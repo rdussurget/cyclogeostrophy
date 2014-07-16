@@ -23,6 +23,7 @@ vardict:
     date: fi.variables['Grid_0001'].date[:]
     _data: self.fu
     _dtype: u1
+    _FillValue: 255
     _dimensions: [NbLongitudes,NbLatitudes]
   
   Grid_0004:
@@ -32,5 +33,6 @@ vardict:
     date: fi.variables['Grid_0001'].date[:]
     _data: self.fv
     _dtype: u1
+    _FillValue: 255
     _dimensions: [NbLongitudes,NbLatitudes]
   

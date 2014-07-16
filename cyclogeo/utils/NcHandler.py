@@ -94,12 +94,15 @@ class NcHandler(OrderedDict):
             if not fi.variables.has_key(name):
                 _dtype=Vdict.pop('_dtype','f') #Default float
                 _dimensions=Vdict.pop('_dimensions',fi.dimensions.keys()[0]) #Default 1st dimension
-                var = fi.createVariable(name, _dtype, _dimensions)
+                _FillValue=Vdict.pop('_FillValue') #Default 1st dimension
+                var = fi.createVariable(name, _dtype, _dimensions,fill_value=_FillValue)
             else:
                 var = fi.variables[name]
             
             for attname in Vdict.keys():
                 
+                #Note: FillValue should be set while creating dimensions
+                #Note2: FillValue is ignored with bytes. Must specify it hardly when you need it
                 if attname == '_FillValue': continue
                 else :
                     val=Vdict.pop(attname)

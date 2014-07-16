@@ -9,21 +9,21 @@ from collections import OrderedDict
 from cyclogeo.utils import Dataset, AGrid, NcHandler, LoadYaml
 
 
-fh=sys.argv[1]
-fuv=sys.argv[2]
-fout=sys.argv[3]
+#~ fh=sys.argv[1]
+fuv=sys.argv[1]
+fout=sys.argv[2]
 
-h=NcHandler(*zip(*((fh,fuv,fout),('r','r','w'))),
-            **{'clobber':(False,False,True)})
+h=NcHandler(*zip(*((fuv,fout),('r','w'))),
+            **{'clobber':(False,True)})
 
 
-H=h[fh].getNCVar('Grid_0001',factor=1.0/100,mask='np.abs(VAR)>10',transform='np.roll(VAR,720,axis=0)',periodicX=True,periodicY=False)
+#~ H=h[fh].getNCVar('Grid_0001',factor=1.0/100,mask='np.abs(VAR)>10',transform='np.roll(VAR,720,axis=0)',periodicX=True,periodicY=False)
 ug=h[fuv].getNCVar('Grid_0001',factor=1.0/100,mask='np.abs(VAR)>1000',transform='np.roll(VAR,720,axis=0)',periodicX=True,periodicY=False)
 vg=h[fuv].getNCVar('Grid_0002',factor=1.0/100,mask='np.abs(VAR)>1000',transform='np.roll(VAR,720,axis=0)',periodicX=True,periodicY=False)
-LatStep=h[fh].variables['LatLonStep'][0]
-LonStep=h[fh].variables['LatLonStep'][1]
-Lat=h[fh].getNCVar('NbLatitudes',transform='VAR[None,:]',periodicX=True ,periodicY=False)
-Lon=h[fh].getNCVar('NbLongitudes',transform='np.roll(np.mod(VAR[:,None]+180,360)-180,720,axis=0)',periodicX=False,periodicY=True)
+LatStep=h[fuv].variables['LatLonStep'][0]
+LonStep=h[fuv].variables['LatLonStep'][1]
+Lat=h[fuv].getNCVar('NbLatitudes',transform='VAR[None,:]',periodicX=True ,periodicY=False)
+Lon=h[fuv].getNCVar('NbLongitudes',transform='np.roll(np.mod(VAR[:,None]+180,360)-180,720,axis=0)',periodicX=False,periodicY=True)
 # h[fh].close()
 
 # compute the gravity acceleration (WGS84 formula from wikipedia)
@@ -51,7 +51,12 @@ dvold=np.zeros(vg.data.shape);dvold[:,:]=np.Inf
 nbiteru=np.zeros(ug.data.shape)
 nbiterv=np.zeros(vg.data.shape)
 
-while 1:
+iter=-1
+
+#Never do more than 20 iterations
+while iter <= 20:
+    
+    iter+=1
     
     dxux=dlondx*un.Dx()
     dyux=dlatdy*un.Dy()
@@ -79,8 +84,8 @@ while 1:
     duold[iconvu]=du[iconvu];dvold[iconvv]=dv[iconvv]
     nbiteru[iconvu*(-iendu)]+=1;nbiterv[iconvv*(-iendv)]+=1;
     
-    print('u',np.sum(-(idivu+iendu+np.isnan(un1.data))))
-    print('v',np.sum(-(idivv+iendv+np.isnan(vn1.data))))
+    #~ print('u',np.sum(-(idivu+iendu+np.isnan(un1.data))))
+    #~ print('v',np.sum(-(idivv+iendv+np.isnan(vn1.data))))
 
     if np.sum(-(idivu+iendu+np.isnan(un1.data)))<=20 and np.sum(-(idivv+iendv+np.isnan(vn1.data)))<=20:
         break
@@ -93,9 +98,13 @@ vn*=100.
 
 
 #Save data    
-fu=fv=np.ma.zeros(un.data.shape,dtype=np.uint8,fill_value=np.uint8(-1))
-fu[:]=nbiteru ; fu.mask=idivu
-fv[:]=nbiterv ; fv.mask=idivv 
+fun_cast=np.uint8
+fu=fv=np.ma.zeros(un.data.shape,dtype=fun_cast,fill_value=fun_cast(-1))
+un.data.mask=un.data.mask | idivu
+vn.data.mask=vn.data.mask | idivv
+fu[:]=nbiteru.astype(fun_cast) ; fu.mask=idivu
+fv[:]=nbiterv.astype(fun_cast) ; fv.mask=idivv
+
 
 h.Copy(fuv,fout)
 h.AppendData(**{'un':np.roll(un.data,-720,axis=0),
