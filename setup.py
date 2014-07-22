@@ -8,6 +8,17 @@ from distutils.extension import Extension
 from Cython.Distutils import build_ext
 
 setup(
-    cmdclass = {'build_ext': build_ext},
-    ext_modules = [Extension("cyclogeo", ["cyclogeo/__init__.py"])]
+    name = "Cyclogeostrophy",
+    version = "0.0.1",
+    author = "L.Marié (IFREMER)",
+    description = ("A module to correct geostrophic current of the effects of cyclo-geostrophy force"),
+    packages=['cyclogeo','cyclogeo.utils'],
+    cmdclass = {'build_ext': build_ext}
+#     ext_modules = [Extension("cyclogeo", ["cyclogeo/__init__.py",
+#                                           "cyclogeo/utils/__init__.py",
+#                                           "cyclogeo/utils/AGrid.py",
+#                                           "cyclogeo/utils/Dataset.py",
+#                                           "cyclogeo/utils/NcHandler.py",
+#                                           "cyclogeo/utils/LoadYaml.py",
+#                                           "cyclogeo/utils/yaml_loader.py"])]
 )
