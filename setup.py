@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 30 mai 2014
 
@@ -10,7 +11,8 @@ from Cython.Distutils import build_ext
 setup(
     name = "Cyclogeostrophy",
     version = "0.0.1",
-    author = "L.Marié (IFREMER)",
+    author = "L.MariÃ© (IFREMER)",
+    scripts = ["scripts/compute_ug.py"],
     description = ("A module to correct geostrophic current of the effects of cyclo-geostrophy force"),
     packages=['cyclogeo','cyclogeo.utils'],
     cmdclass = {'build_ext': build_ext}
