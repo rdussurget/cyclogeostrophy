@@ -15,12 +15,24 @@ setup(
     scripts = ["scripts/compute_ug.py"],
     description = ("A module to correct geostrophic current of the effects of cyclo-geostrophy force"),
     packages=['cyclogeo','cyclogeo.utils'],
-    cmdclass = {'build_ext': build_ext}
-#     ext_modules = [Extension("cyclogeo", ["cyclogeo/__init__.py",
-#                                           "cyclogeo/utils/__init__.py",
-#                                           "cyclogeo/utils/AGrid.py",
-#                                           "cyclogeo/utils/Dataset.py",
-#                                           "cyclogeo/utils/NcHandler.py",
-#                                           "cyclogeo/utils/LoadYaml.py",
-#                                           "cyclogeo/utils/yaml_loader.py"])]
+    cmdclass = {'build_ext': build_ext},
+    ext_modules = [
+                   Extension("cyclogeo",
+                             sources = ["cyclogeo/__init__.py"]),
+                   Extension("cyclogeo.utils",
+                             sources = ["cyclogeo/utils/__init__.py"]),
+                   Extension("cyclogeo.utils.Dataset",
+                             sources = ["cyclogeo/utils/Dataset.py"]),
+                   Extension("cyclogeo.utils.AGrid",
+                             sources = ["cyclogeo/utils/AGrid.py"]),
+                   Extension("cyclogeo.utils.LoadYaml",
+                             sources = ["cyclogeo/utils/LoadYaml.py"]),
+                   Extension("cyclogeo.utils.yaml_loader",
+                             sources = ["cyclogeo/utils/yaml_loader.py"]),
+                   
+                   ]
 )
+#"cyclogeo/utils/AGrid.py",
+#                                           "cyclogeo/utils/Dataset.py",
+#                                           "cyclogeo/utils/LoadYaml.py",
+#                                           "cyclogeo/utils/yaml_loader.py"]

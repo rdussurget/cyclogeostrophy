@@ -1,6 +1,7 @@
 Ce dossier est une distribution du module Cyclogeostrophy
 
-Ce module contient notamment différents outils pour la lecture et l'écriture de fichiers NetCDF et la gestion des points de grilles.
+Ce module contient notamment différents outils pour la lecture et l'écriture
+de fichiers NetCDF et la gestion des points de grilles.
 Il s'agit d'une remise en forme principalement cosmétique du code plus un certain nombre de modifications.
 
 
