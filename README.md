@@ -1,7 +1,13 @@
-Ce dossier est une distribution du module Cyclogeostrophy
+Ceci est le dépôt interne CLS des outils de correction des effets de cyclo-géostrophie.
 
-Ce module contient notamment différents outils pour la lecture et l'écriture
-de fichiers NetCDF et la gestion des points de grilles.
+Pour accéder au dépôt github: https://github.com/rdussurget/cyclogeostrophy.
+
+NOTE: Il est nécessaire de synchroniser ces deux dépôts afin de bénéficier d'éventuelles MaJ par des développeurs externes.
+
+-------------------
+
+Ce module contient notamment différents outils pour la lecture et l'écriture de fichiers NetCDF et la gestion des points de grilles.
+
 Il s'agit d'une remise en forme principalement cosmétique du code plus un certain nombre de 
 
 1. INSTALLATION:
